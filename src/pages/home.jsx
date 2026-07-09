@@ -4,7 +4,7 @@ import { Container, Row, Col, Button, Card, Form } from 'react-bootstrap';
 export default function App() {
   return (
     // Hero Section
-    <section className="overflow-hidden bg-light">
+    <section>
       <Container fluid className="text-center pt-5 pb-5">
         <Row className="justify-content-center pt-4 mb-4">
           <Col lg={8} md={10}>
@@ -24,7 +24,6 @@ export default function App() {
             </div>
           </Col>
         </Row>
-
         <Row className="d-flex justify-content-center mt-4">
           <Col md={11} className="text-center">
             <img src='/images/home/HeroSection.png' alt=''
@@ -33,11 +32,8 @@ export default function App() {
           </Col>
         </Row>
       </Container>
+
+      
     </section>
-
-    // Benefits
-    // <section>
-
-    // </section>
   )
 }
