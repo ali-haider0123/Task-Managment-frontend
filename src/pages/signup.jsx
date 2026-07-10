@@ -157,91 +157,82 @@ const Signup = () => {
           </button>
         </div>
       </div> */}
+      <Container fluid className="min-vh-100 d-flex p-0">
+        <Row className="g-0 w-100">
+          <Col xs={12} md={6} className="d-flex align-items-center justify-content-center p-4 p-md-5">
+            <div className="w-100" style={{ maxWidth: "400px" }}>
+              <h2 className="text-primary mb-4 fw-bold">Sign Up</h2>
 
-      <Container fluid className="min-vh-100 bg-light d-flex justify-content-center align-items-center py-5">
-        <Card
-          className="shadow-lg border shadow-lg mb-5 bg-white rounded overflow-hidden"
-          style={{ width: "100%", maxWidth: "950px" }}
-        >
+              {error && (
+                <Alert variant="danger" className="text-center py-2 mb-3 small">
+                  {error}
+                </Alert>
+              )}
 
-          <Row className="g-0 align-items-stretch">
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="fullName">
+                  <Form.Label className="fw-medium text-secondary small">Full Name</Form.Label>
+                  <Form.Control
+                    className="shadow-sm p-2.5 bg-body rounded border-1"
+                    type="text"
+                    
+                    name="name"
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Form.Group>
 
+                <Form.Group className="mb-3" controlId="email">
+                  <Form.Label className="fw-medium text-secondary small">Email Address</Form.Label>
+                  <Form.Control
+                    className="shadow-sm p-2.5 bg-body rounded border-1"
+                    type="email"
+                    className="shadow p-3 mb-2 bg-body rounded"
+                    name="email"
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Form.Group>
 
-            <Col xs={12} md={6} className="d-flex align-items-center justify-content-center p-4 p-lg-5 bg-white">
-              <div className="w-100" style={{ maxWidth: "400px" }}>
-                <h2 className="text-center text-primary mb-4 fw-bold">Sign Up</h2>
+                <Form.Group className="mb-3" controlId="password">
+                  <Form.Label className="fw-medium text-secondary small">Password</Form.Label>
+                  <Form.Control
+                    className="shadow-sm p-2.5 bg-body rounded border-1"
+                    type="password"
+                    className="shadow p-3 mb-2 bg-body rounded"
+                    name="password"
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Form.Group>
 
+                <Form.Group className="mb-4" controlId="profilePic">
+                  <Form.Label className="fw-medium text-secondary small">Profile Picture</Form.Label>
+                  <Form.Control
+                    className="shadow-sm p-2 bg-body rounded border-1"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                </Form.Group>
 
-                {error && (
-                  <Alert variant="danger" className="text-center py-2 mb-3 small">
-                    {error}
-                  </Alert>
-                )}
+                <Button type="submit" variant="primary" className="w-100 py-2.5 fw-semibold shadow-sm mt-2">
+                  Create Account
+                </Button>
+              </Form>
+            </div>
+          </Col>
 
+          <Col md={6} className=" d-none d-md-flex align-items-center justify-content-center p-5">
+            <img
+              src="/images/signup/signup.png"
+              alt="Signup background"
+              className="img-fluid h-auto"
+            />
+          </Col>
 
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3" controlId="fullName">
-                    <Form.Label className="fw-medium text-secondary">Full Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="name"
-                      onChange={handleInputChange}
-                      placeholder="Enter your full name"
-                      required
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="email">
-                    <Form.Label className="fw-medium text-secondary">Email Address</Form.Label>
-                    <Form.Control
-                      type="email"
-                      name="email"
-                      onChange={handleInputChange}
-                      placeholder="Enter your email"
-                      required
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="password">
-                    <Form.Label className="fw-medium text-secondary">Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      name="password"
-                      onChange={handleInputChange}
-                      placeholder="Enter your password"
-                      required
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-4" controlId="profilePic">
-                    <Form.Label className="fw-medium text-secondary">Profile Picture</Form.Label>
-                    <Form.Control
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                    />
-                  </Form.Group>
-
-                  <Button type="submit" variant="primary" className="w-100 py-2 fw-semibold shadow-sm">
-                    Create Account
-                  </Button>
-                </Form>
-              </div>
-            </Col>
-
-
-            <Col md={6} className="bg-light d-none d-md-flex align-items-center justify-content-center">
-              <img
-                src="/images/signup/signup.png"
-                alt="Signup background"
-                className="img-fluid"
-                style={{ maxHeight: "100%", objectFit: "100" }}
-              />
-            </Col>
-
-          </Row>
-        </Card>
-      </Container>
+        </Row>
+      </Container >
     </>
   );
 };

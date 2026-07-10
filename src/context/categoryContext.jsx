@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
 
-export const CategoriesContext = createContext({
+const CategoriesContext = createContext({
   categories: null,
-  setCategories: () => {},
+  setCategories: () => { },
 });
+
+export { CategoriesContext };
 
 export default function CategoriesProvider({ children }) {
   const [categories, setCategories] = useState(null);
@@ -15,7 +17,7 @@ export default function CategoriesProvider({ children }) {
     async function fetchCategories() {
       try {
         setIsLoading(true);
-        const res = await fetch("http://localhost:8080/api/v1/category/");
+        const res = await fetch("http://localhost:8080/api/v1/categories/");
         if (!res.ok) {
           return;
         }
@@ -37,7 +39,7 @@ export default function CategoriesProvider({ children }) {
 
   return (
     <CategoriesContext.Provider value={{ categories, setCategories }}>
-      {isLoading ? "Loading" :  children }
+      {isLoading ? "Loading" : children}
     </CategoriesContext.Provider>
   );
 }

@@ -103,7 +103,7 @@ export default function CategoryTableRow({
     }
   }
 
-  function handleRowClick(e) {}
+  function handleRowClick() { }
 
   return (
     <>

@@ -1,13 +1,15 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useEffect } from "react";
 
 export const TaskContext = createContext({
   task: null,
   setTask: () => { },
+  isLoading: false,
 });
 
 export default function TaskProvider({ children }) {
-  const [task, setTask] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [task, setTask] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -16,16 +18,15 @@ export default function TaskProvider({ children }) {
 
         let url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
 
-        let token = localStorage.getItem("token")
+        let token = localStorage.getItem("token");
 
         const res = await fetch(`${url}/api/v1/task`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": token
-
+            Authorization: token,
           },
-        })
+        });
         if (!res.ok) {
           return;
         }
@@ -34,7 +35,6 @@ export default function TaskProvider({ children }) {
 
         setTask(data);
         console.log(data);
-        setIsLoading(false);
       } catch (err) {
         console.log(err);
       } finally {
@@ -42,10 +42,11 @@ export default function TaskProvider({ children }) {
       }
     }
 
-    fetchTasks()
-  }, [])
+    fetchTasks();
+  }, []);
+
   return (
-    <TaskContext.Provider value={{ task, setTask }}>
+    <TaskContext.Provider value={{ task, setTask, isLoading }}>
       {children}
     </TaskContext.Provider>
   );

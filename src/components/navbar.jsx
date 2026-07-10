@@ -6,7 +6,7 @@ import { CategoriesContext } from '../context/categoryContext';
 
 const Navbar = () => {
     const { user, Logout } = useContext(UserContext);
-    const categories = useContext(CategoriesContext);
+    // const categories = useContext(CategoriesContext);
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -36,10 +36,10 @@ const Navbar = () => {
                 <ul className="navbar-nav">
                 
                     <li className="nav-item">
-                        <Link className="nav-link text-dark" to="/task">Tasks</Link>
+                        <Link className="nav-link text-dark fw-bold fs-5" to="/task">Tasks</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link text-dark" to="/category">Categories</Link>
+                        <Link className="nav-link text-dark fw-bold fs-5" to="/category">Categories</Link>
                     </li>
                 </ul>
             </div>
@@ -118,10 +118,10 @@ const Navbar = () => {
                 </div>
             ) : (
                 <div className="ms-auto d-flex gap-2">
-                    <Link className="btn btn-light text-primary" to="/login">
+                    <Link className="btn btn-light text-primary fw-bold fs-5" to="/login">
                         Login
                     </Link>
-                    <Link className="btn btn-outline-primary fw-semibold" to="/signup">
+                    <Link className="btn btn-outline-primary fw-semibold fw-bold fs-5" to="/signup">
                         Sign Up
                     </Link>
                 </div>

@@ -3,14 +3,14 @@ import CategoryPage from "./pages/category";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import { UserContext } from "./context/userContext";
-import { useContext } from "react";
+
 import TaskPage from "./pages/task";
 import HomePage from "./pages/home";
 import Navbar from "./components/navbar";
 
 
 function App() {
-  const user = useContext(UserContext);
+  
 
   return (
     <div>

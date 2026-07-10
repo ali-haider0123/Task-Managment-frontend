@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
+import { Container, Row, Col, Button, Card, Form, Alert } from 'react-bootstrap';
 
 const Login = () => {
 
@@ -9,8 +10,8 @@ const Login = () => {
   const user = useContext(UserContext);
 
   const [formData, setFormData] = useState({
-    Email: "",
-    Password: "",
+    email: "",
+    password: "",
   });
 
   const [error, setError] = useState("");
@@ -30,14 +31,14 @@ const Login = () => {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (formData.Password.length < 6) {
+    if (formData.password.length < 6) {
       setError("Invalid Password, minimum length 6");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(formData.Email)) {
+    if (!emailRegex.test(formData.email)) {
       setError("Invalid Email");
       return;
     }
@@ -71,48 +72,64 @@ const Login = () => {
     }
   }
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div
-        className="card shadow p-4"
-        style={{ maxWidth: "400px", width: "100%" }}
-      >
-        <h2 className="text-center text-primary mb-4">Login</h2>
-        <div className="bg-danger text-light text-center">
-          {error ? error : null}
-        </div>
-        <form>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              name="Email"
-              onChange={handleInputChage}
-              className="form-control"
-              id="email"
-              placeholder="Enter your email"
-            />
-          </div>
+    <>
+      <Container fluid className="min-vh-100 d-flex p-0">
+        <Row className="g-0 w-100">
+          <Col xs={12} md={6} className="d-flex align-items-center justify-content-center p-4 p-md-5">
+            <div className="w-100" style={{ maxWidth: "400px" }}>
+              <h2 className="text-primary pt-4 mb-3 fw-bold">Login</h2>
 
-          <div className="mb-4">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              name="Password"
-              onChange={handleInputChage}
-              id="password"
-              placeholder="Enter your password"
-            />
-          </div>
-        </form>
+              {error && (
+                <Alert variant="danger" className="text-center mb-3 small">
+                  {error}
+                </Alert>
+              )}
 
-        <button onClick={handleSubmit} className="btn btn-primary w-100">Login</button>
-      </div>
-    </div>
+              <form className="py-5">
+                <div className="pb-5">
+                  <label htmlFor="email" className="form-label fs-5">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    onChange={handleInputChage}
+                    className="form-control shadow p-3 bg-body rounded border-1"
+                    id="email"
+                  />
+                </div>
+
+                <div className="pb-2">
+                  <label htmlFor="password" className="form-label fs-5">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control shadow p-3 bg-body rounded border-1"
+                    name="password"
+                    onChange={handleInputChage}
+                    id="password"
+                  />
+                </div>
+              </form>
+
+              <Button type="submit" variant="primary" onClick={handleSubmit} className="w-100 p-3 fw-semibold shadow-sm mt-2">
+                Create Account
+              </Button>
+            </div>
+          </Col>
+
+          <Col md={6} className=" d-none d-md-flex align-items-center justify-content-center p-5">
+            <img
+              src="/images/signup/signup.png"
+              alt="Signup background"
+              className="img-fluid h-auto"
+            />
+          </Col>
+
+        </Row>
+      </Container >
+    </>
   );
 };
 
