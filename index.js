@@ -39,14 +39,14 @@ async function connect() {
     }
 
 }
-app.listen(port, async () => {
-    try {
+// app.listen(port, async () => {
+//     try {
 
-        console.log("server is running")
-    }
-    catch (err) {
-        console.log("app not running or db failed")
-    }
-})
+//         console.log("server is running")
+//     }
+//     catch (err) {
+//         console.log("app not running or db failed")
+//     }
+// })
 
 // console.log("Done")
