@@ -29,8 +29,13 @@ app.get("/", (req, res) => {
 })
 
 app.listen(port, async () => {
-    await mongoose.connect;
+   try{
+     await mongoose.connect;
     console.log("server is running")
+   }
+   catch(err){
+    console.log("app not running or db failed")
+   }
 })
 
 // console.log("Done")
