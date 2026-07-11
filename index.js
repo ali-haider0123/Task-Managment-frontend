@@ -8,7 +8,7 @@ const taskRouter = require("./routes/task.router")
 const { default: mongoose } = require("mongoose");
 const app = new express();
 const auth = require("./middleware/user.middleware")
-const hosting = require("./config/hosting")
+// const hosting = require("./config/hosting")
 const cors = require("cors");
 require("dotenv").config();
 
@@ -31,3 +31,5 @@ app.get("/", (res, req) => {
 app.listen(port, async () => {
     await mongoose.connect;
 })
+
+// console.log("Done")
