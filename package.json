@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "reactdemo01",
   "private": true,
   "version": "0.0.0",
@@ -36,34 +35,33 @@
     "vite": "^8.0.0-beta.13"
   },
   "overrides": {
-    "vite": "^8.0.0-beta.13"
-=======
-  "name": "expressdemo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "bcrypt": "^6.0.0",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "env": "^0.0.2",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.7.3",
-    "morgan": "^1.11.0",
-    "multer": "^2.2.0",
-    "nodemon": "^3.1.14",
-    "router": "^2.2.0",
-    "routes": "^2.1.0"
->>>>>>> 9cd0731f90a4c553ce5a8734facf6408edd1bb62
+    "vite": "^8.0.0-beta.13",
+    "name": "expressdemo",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "dev": "nodemon index.js",
+      "start": "node index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "dependencies": {
+      "bcrypt": "^6.0.0",
+      "cors": "^2.8.6",
+      "dotenv": "^17.4.2",
+      "env": "^0.0.2",
+      "express": "^5.2.1",
+      "jsonwebtoken": "^9.0.3",
+      "mongoose": "^9.7.3",
+      "morgan": "^1.11.0",
+      "multer": "^2.2.0",
+      "nodemon": "^3.1.14",
+      "router": "^2.2.0",
+      "routes": "^2.1.0"
+    }
   }
 }
