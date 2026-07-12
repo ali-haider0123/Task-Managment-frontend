@@ -17,7 +17,7 @@ export default function CategoriesProvider({ children }) {
     async function fetchCategories() {
       try {
         setIsLoading(true);
-        const res = await fetch("http://localhost:8080/api/v1/categories/");
+        const res = await fetch("http://localhost:8080/api/v1/category/");
         if (!res.ok) {
           return;
         }

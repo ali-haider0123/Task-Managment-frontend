@@ -26,7 +26,7 @@ export default function TasksListUI({ tasks }) {
     }
 
     function handleEditClick(obj) {
-        const temp=`Edit Task #${obj._id}`;
+        const temp = `Edit Task #${obj._id}`;
 
         setModal(
             {
@@ -39,8 +39,8 @@ export default function TasksListUI({ tasks }) {
         )
     }
 
-       function handleDeleteClick(obj) {
-        const temp=`Delete Task #${obj._id}`;
+    function handleDeleteClick(obj) {
+        const temp = `Delete Task #${obj._id}`;
         setModal(
             {
                 Show: true,
@@ -84,13 +84,35 @@ export default function TasksListUI({ tasks }) {
                 </Card.Header>
                 <Card.Body>
                     <Row>
-                        {
-                            tasks.map(t =>
-                                <Col className="col-4 mb-3" key={t._id} >
-                                    <TaskDetailsUI task={t} onEdit={handleEditClick} onDelete={handleDeleteClick} />
-                                </Col>
+                        {tasks?.length > 0 ?
+                            (
+                                tasks.map(t =>
+                                    <Col className="col-4 mb-3" key={t._id} >
+                                        <TaskDetailsUI task={t} onEdit={handleEditClick} onDelete={handleDeleteClick} onClose={handleModalClose} />
+                                    </Col>
+                                )
                             )
-                        }
+                            :
+                            <div className="d-flex flex-column align-items-center justify-content-center text-center py-5 my-3 border border-2 border-dashed rounded-3">
+                                <div
+                                    className="d-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 mb-3"
+                                    style={{ width: "80px", height: "80px" }}
+                                >
+                                    <FontAwesomeIcon icon="fas fa-tags" className="text-primary fs-2" />
+                                </div>
+                                <h5 className="fw-bold text-primary mb-1">No Tasks Yet</h5>
+                                <p className="text-muted mb-3" style={{ maxWidth: "320px" }}>
+                                    You haven't created any Tasks. Start by adding your first one to organize your content.
+                                </p>
+                                <Button
+                                    type="button"
+                                    variant="primary"
+                                    onClick={handleCreateClick}
+                                    className="px-4 fw-bold"
+                                >
+                                    <FontAwesomeIcon icon="fas fa-plus" /> Add Your First Task
+                                </Button>
+                            </div>}
                     </Row>
                 </Card.Body>
             </Card>

@@ -1,0 +1,22 @@
+Introduction to react
+
+Creating React App
+    1. Use Create React App option 	( old option )
+        npx create-react-app fistapp
+    
+    2. Vite option ( Recmended )
+        2.1. execute following command     npm create vite@latest
+                It will take following input from you and will create project for you
+            - project name : demo01   (enter project name)
+            - select framework: react  (select using arrow keys)
+            - select a variant: JavaScript+SWC (select using arrow keys)
+            - Use rolldown-vite: no (select using arrow keys)
+            - Install with npm and start now?: no
+        2.2. Use "npm install" to install required modules 
+        2.3. Use "npm run dev" to start project
+
+
+
+
+        
+        

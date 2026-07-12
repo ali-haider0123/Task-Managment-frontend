@@ -1,0 +1,22 @@
+Use BootStrap in your react app
+    npm install bootstrap
+    npm install react-bootstrap
+
+Use fontawesome in your react app
+    1. Install required modules
+        npm install @fortawesome/fontawesome-svg-core
+        npm install @fortawesome/free-solid-svg-icons
+        npm install @fortawesome/free-regular-svg-icons
+        npm install @fortawesome/free-brands-svg-icons
+        npm install @fortawesome/react-fontawesome
+    2. Write following code in main.jsx
+        import { library } from '@fortawesome/fontawesome-svg-core';
+        import { fas } from '@fortawesome/free-solid-svg-icons';
+        import { far } from '@fortawesome/free-regular-svg-icons';
+        import { fab } from '@fortawesome/free-brands-svg-icons';
+        
+        library.add(fas);
+        library.add(far);
+        library.add(fab);
+
+

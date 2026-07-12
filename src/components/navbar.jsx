@@ -1,30 +1,44 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-
+import React, { useState,  useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { HiLogout } from 'react-icons/hi';
 import { UserContext } from '../context/userContext';
-import { CategoriesContext } from '../context/categoryContext';
 
 const Navbar = () => {
-    const { user, Logout } = useContext(UserContext);
-    // const categories = useContext(CategoriesContext);
+    const { Logout } = useContext(UserContext);
 
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null);
-
-    const toggleDropdown = () => setDropdownOpen((prev) => !prev);
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        return !!(token && user);
+    });
 
     useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-                setDropdownOpen(false);
-            }
+        const checkAuth = () => {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            setIsLoggedIn(!!(token && user));
         };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+
+        window.addEventListener('storage', checkAuth);
+
+        const interval = setInterval(checkAuth, 1000);
+
+        return () => {
+            window.removeEventListener('storage', checkAuth);
+            clearInterval(interval);
+        };
     }, []);
 
+    const navigate = useNavigate();
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setIsLoggedIn(false);
 
+        if (Logout) Logout();
+        navigate('/');
+    };
 
     return (
         <nav className="navbar navbar-expand-lg px-3">
@@ -34,7 +48,6 @@ const Navbar = () => {
 
             <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul className="navbar-nav">
-                
                     <li className="nav-item">
                         <Link className="nav-link text-dark fw-bold fs-5" to="/task">Tasks</Link>
                     </li>
@@ -44,88 +57,32 @@ const Navbar = () => {
                 </ul>
             </div>
 
-            {user ? (
-                <div className="ms-auto position-relative" ref={dropdownRef}>
+            <div className="ms-auto d-flex align-items-center gap-2">
+                {isLoggedIn ? (
                     <button
-                        className="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-2 p-1 pe-3"
-                        type="button"
-                        onClick={toggleDropdown}
-                        aria-expanded={dropdownOpen}
-                    >
-                        <img
-                            src={user.Image}
-                            alt={user.FullName}
-                            width="32"
-                            height="32"
-                            className="rounded-circle border border-light"
-                            style={{ objectFit: 'cover' }}
-                        />
-                        <span className="d-none d-md-inline">{user.FullName}</span>
-                    </button>
-
-                    <ul
-                        className={`dropdown-menu dropdown-menu-end shadow p-2 mt-2 ${dropdownOpen ? 'show' : ''
-                            }`}
+                        className="btn d-flex align-items-center gap-2 fw-bold fs-5 px-3 py-2 transition-all"
                         style={{
-                            minWidth: '240px',
-                            right: 0,
-                            left: 'auto',
-                            borderRadius: '0.5rem',
+                            backgroundColor: "rgb(241, 0, 0)",
+                            color: "white",
+                            borderRadius: "0.5rem",
+                            border: "none"
                         }}
+                        onClick={handleLogout}
                     >
-                        <li className="px-2 py-1 d-flex align-items-center gap-2">
-                            <img
-                                src={user.Image}
-                                alt={user.FullName}
-                                width="44"
-                                height="44"
-                                className="rounded-circle border border-primary"
-                                style={{ objectFit: 'cover' }}
-                            />
-                            <div>
-                                <p className="mb-0 text-dark fw-semibold">{user.FullName}</p>
-                                <p className="mb-0 text-dark small opacity-75">{user.Email}</p>
-                            </div>
-                        </li>
-
-                        <li><hr className="dropdown-divider bg-light" /></li>
-
-                        <li>
-                            <Link
-                                className="dropdown-item text-dark d-flex align-items-center gap-2"
-                                to="/tasks"
-                                onClick={() => setDropdownOpen(false)}
-                            >
-                                <HiClipboardList size={18} />
-                                View Tasks
-                            </Link>
-                        </li>
-                        <li>
-                            <button
-                                className="dropdown-item d-flex align-items-center gap-2"
-                                style={{ backgroundColor: "rgb(241, 0, 0)", color: "white" }}
-                                onClick={() => {
-                                    setDropdownOpen(false);
-
-                                    Logout()
-                                }}
-                            >
-                                <HiLogout size={18} />
-                                Logout
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            ) : (
-                <div className="ms-auto d-flex gap-2">
-                    <Link className="btn btn-light text-primary fw-bold fs-5" to="/login">
-                        Login
-                    </Link>
-                    <Link className="btn btn-outline-primary fw-semibold fw-bold fs-5" to="/signup">
-                        Sign Up
-                    </Link>
-                </div>
-            )}
+                        <HiLogout size={20} />
+                        Logout
+                    </button>
+                ) : (
+                    <>
+                        <Link className="btn btn-light text-primary fw-bold fs-5" to="/login">
+                            Login
+                        </Link>
+                        <Link className="btn btn-outline-primary fw-bold fs-5" to="/signup">
+                            Sign Up
+                        </Link>
+                    </>
+                )}
+            </div>
         </nav>
     );
 };

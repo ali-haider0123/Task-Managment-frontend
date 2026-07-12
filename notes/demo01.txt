@@ -1,0 +1,12 @@
+
+- creating component
+- using component
+- using image in a component
+- applying CSS to react components
+  - external
+  - inline
+
+
+
+        
+        

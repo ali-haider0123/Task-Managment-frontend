@@ -6,7 +6,10 @@ export default function CategoryTableRow({
   categories,
   category,
   setCategories,
+  index = 0,
+  isEven,
 }) {
+  const _rowIsEven = isEven ?? index % 2 === 0;
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editFormData, setEditFormData] = useState({
     Name: category.Name || "",
@@ -43,7 +46,7 @@ export default function CategoryTableRow({
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/v1/categories/${category._id}`,
+        `http://localhost:8080/api/v1/category/${category._id}`,
         {
           method: "PUT",
           body: JSON.stringify(editFormData),
@@ -83,7 +86,7 @@ export default function CategoryTableRow({
     e.stopPropagation();
     try {
       const response = await fetch(
-        `http://localhost:8080/api/v1/categories/${category._id}`,
+        `http://localhost:8080/api/v1/category/${category._id}`,
         {
           method: "DELETE",
           headers: {
@@ -199,47 +202,55 @@ export default function CategoryTableRow({
       </Modal>
 
       <div
-        className="category-row row pb-2 mb-2 border-bottom border-bottom-2 align-items-center mx-0"
+        className={`category-row row py-2 mb-2 align-items-center mx-0 ${isEven ? "bg-primary bg-opacity-10" : "bg-white"
+          }`}
         onClick={handleRowClick}
-        data-cid={category.Id}
+        data-cid={category._id}
+        style={{ cursor: "pointer", borderBottom: "1px solid #e9ecef" }}
       >
         <div className="col-4">
           <div className="d-flex align-items-center gap-2">
-            <div
-              style={{ width: "50px", height: "30px" }}
-              className="d-flex align-items-center justify-content-center overflow-hidden rounded"
+            <span
+              className="d-inline-flex align-items-center justify-content-center fw-semibold text-primary bg-primary bg-opacity-25 rounded-circle flex-shrink-0"
+              style={{ width: "30px", height: "30px", fontSize: "0.85rem" }}
             >
-              <img
-                src={category.Image}
-                alt={category.Name}
-                className="h-100 w-100 object-fit-cover"
-              />
-            </div>
-            <div className="fw-semibold">{category.Name}</div>
+              {index + 1}
+            </span>
+            <div className="fw-semibold text-dark">{category.Name}</div>
           </div>
         </div>
+
         <div className="col-2 text-center d-flex justify-content-center">
           <div
             style={{
-              width: "25px",
-              height: "25px",
-              borderRadius: "5px",
+              width: "28px",
+              height: "28px",
+              borderRadius: "6px",
               backgroundColor: category.Color,
             }}
-            className="border"
+            className="border shadow-sm"
+            title={category.Color}
           ></div>
         </div>
-        <div className="col-4 text-muted small text-truncate">
-          {category.Description}
+
+        <div className="col-4 text-muted small">
+          <span
+            className="d-inline-block text-truncate w-100"
+            title={category.Description}
+          >
+            {category.Description}
+          </span>
         </div>
+
         <div className="col-2 text-end pe-3">
           <Button
             type="button"
             variant="warning"
             size="sm"
             onClick={handleEdit}
-            data-cid={category.Id}
-            className="me-1 text-white"
+            data-cid={category._id}
+            className="me-1 text-white rounded-pill px-2"
+            title="Edit category"
           >
             <FontAwesomeIcon icon="fas fa-edit" />
           </Button>
@@ -248,7 +259,9 @@ export default function CategoryTableRow({
             variant="danger"
             size="sm"
             onClick={handleDelete}
-            data-cid={category.Id}
+            data-cid={category._id}
+            className="rounded-pill px-2"
+            title="Delete category"
           >
             <FontAwesomeIcon icon="fas fa-trash" />
           </Button>

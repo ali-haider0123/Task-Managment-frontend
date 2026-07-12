@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DateTime } from "luxon";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
   Button,
   Card,
@@ -12,19 +12,36 @@ import {
 } from "react-bootstrap";
 import { CategoriesContext } from "../context/categoryContext";
 
-export default function CreateTaskUI() {
+export default function CreateTaskUI({ onClose }) {
   const categories = useContext(CategoriesContext);
 
   const minDate = DateTime.now();
-  const maxDate = minDate.plus({ month: 3 }); //new Date(minDate.getFullYear(),minDate.getMonth()+4,minDate.getDate());
+  const maxDate = minDate.plus({ month: 3 });
+  const firstCategoryId = categories?.categories?.[0]?._id || "";
 
   const [task, updateTask] = useState({
     title: { value: "", isValid: false, message: "" },
     progress: { value: 0, isValid: true, message: "" },
-    category: { value: "", isValid: false, message: "" },
-    dueDate: { value: new Date(), isValid: true, message: "" },
+    category: { value: firstCategoryId, isValid: !!firstCategoryId, message: "" },
+    dueDate: { value: minDate.toISODate(), isValid: true, message: "" },
     description: { value: "", isValid: true, message: "" },
   });
+
+  const categoryValue = task.category.value;
+
+  useEffect(() => {
+    if (categories?.categories?.length > 0 && !categoryValue) {
+      // Defer state update to avoid synchronous setState inside effect
+      const id = categories.categories[0]._id;
+      const t = setTimeout(() => {
+        updateTask((prev) => ({
+          ...prev,
+          category: { value: id, isValid: true, message: "" },
+        }));
+      }, 0);
+      return () => clearTimeout(t);
+    }
+  }, [categories, categoryValue]);
 
   function handleTitleChange(e) {
     const temp = e.target.value;
@@ -69,7 +86,6 @@ export default function CreateTaskUI() {
 
   function handleCategoryChange(e) {
     const temp = e.target.value;
-    console.log(temp);
     if (temp != 0) {
       updateTask({
         ...task,
@@ -89,8 +105,6 @@ export default function CreateTaskUI() {
 
   function handleDescriptionChange(e) {
     const temp = e.target.value;
-    // console.log(temp);
-    console.log(temp.length);
     if (temp.length >= 10 && temp.length <= 1500) {
       updateTask({
         ...task,
@@ -109,17 +123,17 @@ export default function CreateTaskUI() {
   }
 
   function handleDueDateChange(e) {
-    const temp = new Date(e.target.value);
-    if (temp >= minDate && temp <= maxDate) {
+    const temp = DateTime.fromISO(e.target.value);
+    if (temp.isValid && temp >= minDate.startOf("day") && temp <= maxDate.endOf("day")) {
       updateTask({
         ...task,
-        dueDate: { value: temp, isValid: true, message: "" },
+        dueDate: { value: e.target.value, isValid: true, message: "" },
       });
     } else {
       updateTask({
         ...task,
         dueDate: {
-          value: temp,
+          value: e.target.value,
           isValid: false,
           message: `from ${minDate.toFormat("dd-MM-yyyy")} to ${maxDate.toFormat("dd-MM-yyyy")}`,
         },
@@ -127,33 +141,47 @@ export default function CreateTaskUI() {
     }
   }
 
-  function handleAddClick() {
-    if (
-      task.title.isValid &&
-      task.progress.isValid &&
-      task.category.isValid &&
-      task.dueDate.isValid &&
-      task.description.isValid
-    ) {
-      const obj = {
-        id: 0,
-        title: task.title.value,
-        progress: task.progress.value,
-        description: task.description.value,
-        dueDate: task.dueDate,
-        category: task.category.value,
-      };
-      alert("Adding a new task");
-      console.log(obj);
+  async function handleAddClick() {
+    const obj = {
+      title: task.title.value,
+      progress: task.progress.value,
+      description: task.description.value,
+      dueDate: task.dueDate.value,
+      category: task.category.value,
+    };
 
-      
+    // let url = "http://localhost:8080";
 
+    let token = localStorage.getItem("token")
 
+    const res = await fetch(`http://localhost:8080/api/v1/task`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
 
+      },
+      body: JSON.stringify(obj)
+    })
 
-    } else {
-      alert("invalid input");
+    if (!res.ok) {
+      return console.log("Error")
     }
+
+    await res.json();
+
+    updateTask({
+      title: { value: "", isValid: false, message: "" },
+      progress: { value: 0, isValid: true, message: "" },
+      category: { value: 0, isValid: false, message: "" },
+      dueDate: { value: minDate.toISODate(), isValid: true, message: "" },
+      description: { value: "", isValid: true, message: "" },
+    })
+
+    if (onClose) {
+      onClose();
+    }
+
   }
 
   return (
@@ -162,11 +190,6 @@ export default function CreateTaskUI() {
         <FormGroup className="mb-3">
           <FloatingLabel controlId="ddlCategory" label="Category">
             <Form.Select onChange={handleCategoryChange}>
-              {/* <option value="0"> Select Category </option>
-                            <option value="1"> Learning </option>
-                            <option value="2"> Office </option>
-                            <option value="3"> Personal </option> */}
-
               {categories.categories.map((c, i) => {
                 return (
                   <option key={i} value={c._id}>
@@ -185,6 +208,7 @@ export default function CreateTaskUI() {
           <FloatingLabel controlId="txtTitle" label="Title">
             <Form.Control
               type="text"
+              value={task.title.value}
               placeholder=""
               onChange={handleTitleChange}
             />
@@ -196,6 +220,7 @@ export default function CreateTaskUI() {
             <Form.Control
               as="textarea"
               rows={10}
+              value={task.description.value}
               style={{ height: "200px" }}
               placeholder=""
               onChange={handleDescriptionChange}
@@ -210,8 +235,7 @@ export default function CreateTaskUI() {
           <FloatingLabel controlId="txtDueDate" label="Due Date">
             <Form.Control
               type="date"
-              min={minDate}
-              max={maxDate}
+              value={task.dueDate.value}
               placeholder=""
               onChange={handleDueDateChange}
             />
@@ -227,6 +251,7 @@ export default function CreateTaskUI() {
             <Form.Control
               type="number"
               min="0"
+              value={task.progress.value}
               max="100"
               step="1"
               placeholder=""
@@ -248,7 +273,7 @@ export default function CreateTaskUI() {
             <FontAwesomeIcon icon="fas fa-floppy-disk" /> Add Task
           </Button>
           &nbsp;&nbsp;
-          <Button type="button" className="btn btn-danger btn-wide">
+          <Button type="button" className="btn btn-danger btn-wide" onClick={onClose}>
             {" "}
             <FontAwesomeIcon icon="fas fa-times" /> Close
           </Button>

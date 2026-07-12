@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FloatingLabel, Form, Button, Modal } from "react-bootstrap";
 import CategoryTableRow from "./categorytablerow";
 
-const apiUrl = "http://localhost:8080";
+
 
 export default function CategoriesTable({ categories, setCategories }) {
   const [modalVisible, changeModalVisiblity] = useState(false);
@@ -48,7 +48,7 @@ export default function CategoriesTable({ categories, setCategories }) {
     }
 
     try {
-      const response = await fetch(`${apiUrl}/api/v1/categories/`, {
+      const response = await fetch(`http://localhost:8080/api/v1/category/`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -174,7 +174,6 @@ export default function CategoriesTable({ categories, setCategories }) {
         </Modal.Body>
       </Modal>
 
-      {/* Main Screen Layout */}
       <div className="container-fluid px-2">
         <div className="row bg-primary text-white fw-bold rounded shadow-sm align-items-center py-1 g-0">
           <div className="col px-3 d-flex justify-content-between align-items-center">
@@ -193,7 +192,6 @@ export default function CategoriesTable({ categories, setCategories }) {
           </div>
         </div>
 
-        {/* Minimalist Table Header */}
         <div className="row text-primary fw-bold py-2 border-bottom border-2 mx-0 align-items-center">
           <div className="col-4">Category</div>
           <div className="col-2 text-center">Color</div>
@@ -203,14 +201,44 @@ export default function CategoriesTable({ categories, setCategories }) {
 
         {/* Rows Container */}
         <div className="mt-1">
-          {categories.map((c) => (
-            <CategoryTableRow
-              categories={categories}
-              setCategories={setCategories}
-              category={c}
-              key={c._id}
-            />
-          ))}
+
+          {categories.length > 0 ?
+            <>
+              {
+                categories.map((c, i) => (
+                  <CategoryTableRow
+                    categories={categories}
+                    setCategories={setCategories}
+                    category={c}
+                    key={c._id}
+                    index={i}
+                  />
+                ))
+              }
+            </>
+            :
+            <div className="d-flex flex-column align-items-center justify-content-center text-center py-5 my-3 border border-2 border-dashed rounded-3">
+              <div
+                className="d-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 mb-3"
+                style={{ width: "80px", height: "80px" }}
+              >
+                <FontAwesomeIcon icon="fas fa-tags" className="text-primary fs-2" />
+              </div>
+              <h5 className="fw-bold text-primary mb-1">No Categories Yet</h5>
+              <p className="text-muted mb-3" style={{ maxWidth: "320px" }}>
+                You haven't created any categories. Start by adding your first one to organize your content.
+              </p>
+              <Button
+                type="button"
+                variant="primary"
+                onClick={handleAddClick}
+                className="px-4 fw-bold"
+              >
+                <FontAwesomeIcon icon="fas fa-plus" /> Add Your First Category
+              </Button>
+            </div>
+          }
+
         </div>
       </div>
     </>

@@ -1,0 +1,20 @@
+
+- BootStrap in react app
+- Font Awesome in react app
+- Props and Childred
+- Conditional Rendering
+  - && (and) operator   bool_expr && output
+    output will be rendered if condition is true otherwise no content will be rendered
+  - conditional operator (bool_Expr) ? output1 : output2
+    output-1 will be rendered if condition is true otherwise output-2 will be rendered
+  - List Components and concept of key in it
+  
+
+
+   
+
+
+
+
+        
+        
