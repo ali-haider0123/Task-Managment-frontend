@@ -46,7 +46,7 @@ export default function CategoryTableRow({
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/v1/category/${category._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/category/${category._id}`,
         {
           method: "PUT",
           body: JSON.stringify(editFormData),
@@ -86,7 +86,7 @@ export default function CategoryTableRow({
     e.stopPropagation();
     try {
       const response = await fetch(
-        `http://localhost:8080/api/v1/category/${category._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/category/${category._id}`,
         {
           method: "DELETE",
           headers: {

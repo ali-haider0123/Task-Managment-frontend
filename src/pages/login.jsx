@@ -46,7 +46,7 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:8080/api/v1/user/login", {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

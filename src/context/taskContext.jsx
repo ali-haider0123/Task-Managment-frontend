@@ -16,7 +16,7 @@ export default function TaskProvider({ children }) {
       try {
         setIsLoading(true);
 
-        let url = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
+        let url = import.meta.env.VITE_BACKEND_URL;
 
         let token = localStorage.getItem("token");
 

@@ -150,11 +150,10 @@ export default function CreateTaskUI({ onClose }) {
       category: task.category.value,
     };
 
-    // let url = "http://localhost:8080";
 
     let token = localStorage.getItem("token")
 
-    const res = await fetch(`http://localhost:8080/api/v1/task`, {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/task`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
